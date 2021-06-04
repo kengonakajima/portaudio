@@ -192,8 +192,8 @@ static int playCallback( const void *inputBuffer, void *outputBuffer,
 }
 
 /*******************************************************************/
-int main(void);
-int main(void)
+
+int main(int argc, char **argv )
 {
     PaStreamParameters  inputParameters,
                         outputParameters;
@@ -207,7 +207,7 @@ int main(void)
     SAMPLE              max, val;
     double              average;
 
-    printf("patest_record.c\n"); fflush(stdout);
+    printf("patest_record.c %s\n", argv[1]); fflush(stdout);
 
     data.maxFrameIndex = totalFrames = NUM_SECONDS * SAMPLE_RATE; /* Record for a few seconds. */
     data.frameIndex = 0;
@@ -224,7 +224,7 @@ int main(void)
     err = Pa_Initialize();
     if( err != paNoError ) goto done;
 
-    inputParameters.device = Pa_GetDefaultInputDevice(); /* default input device */
+    inputParameters.device = argv[1] ? atoi(argv[1])  : Pa_GetDefaultInputDevice(); /* default input device */
     if (inputParameters.device == paNoDevice) {
         fprintf(stderr,"Error: No default input device.\n");
         goto done;
